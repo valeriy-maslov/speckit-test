@@ -1,0 +1,132 @@
+openapi: 3.0.3
+info:
+  title: Daily Focus Todo API
+  version: 0.2.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/app-state:
+    get:
+      summary: Get current app state for active day
+      responses:
+        '200':
+          description: Current mode, lists, and lifecycle metadata
+  /api/inbox-points:
+    get:
+      summary: List inbox points
+      responses:
+        '200':
+          description: Inbox point collection
+    post:
+      summary: Create inbox point
+      requestBody:
+        required: true
+      responses:
+        '201':
+          description: Point created
+  /api/todos:
+    get:
+      summary: List todo items
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [INBOX, DAILY, COMPLETED, TRASH]
+      responses:
+        '200':
+          description: Todo item collection
+    post:
+      summary: Create todo item
+      requestBody:
+        required: true
+      responses:
+        '201':
+          description: Todo created
+  /api/todos/{todoId}:
+    patch:
+      summary: Update todo attributes or status
+      parameters:
+        - in: path
+          name: todoId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+      responses:
+        '200':
+          description: Todo updated
+        '404':
+          description: Todo not found
+  /api/daily-list/{todoId}:
+    put:
+      summary: Assign todo to daily list
+      parameters:
+        - in: path
+          name: todoId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Assigned
+    delete:
+      summary: Remove todo from daily list
+      parameters:
+        - in: path
+          name: todoId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Removed
+  /api/mode:
+    put:
+      summary: Set app mode for current day
+      requestBody:
+        required: true
+      responses:
+        '200':
+          description: Mode updated
+  /api/rollover:
+    post:
+      summary: Execute manual rollover
+      responses:
+        '200':
+          description: Rollover applied
+  /api/trash:
+    get:
+      summary: List trashed todos
+      responses:
+        '200':
+          description: Trash collection
+components:
+  schemas:
+    InboxPoint:
+      type: object
+      required: [id, text, created_at, updated_at]
+      properties:
+        id: { type: string }
+        text: { type: string }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+    TodoItem:
+      type: object
+      required: [id, title, status, is_stale, created_at, updated_at, last_activity_at]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        source_inbox_point_id: { type: string, nullable: true }
+        status:
+          type: string
+          enum: [INBOX, DAILY, COMPLETED, TRASH]
+        is_stale: { type: boolean }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+        daily_assigned_at: { type: string, format: date-time, nullable: true }
+        completed_at: { type: string, format: date-time, nullable: true }
+        stale_marked_at: { type: string, format: date-time, nullable: true }
+        trashed_at: { type: string, format: date-time, nullable: true }
+        last_activity_at: { type: string, format: date-time }
