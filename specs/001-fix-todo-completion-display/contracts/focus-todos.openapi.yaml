@@ -15,6 +15,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FocusTodoGroups'
+              examples:
+                active-and-completed:
+                  summary: Active todos first, completed-today below
+                  value:
+                    active:
+                      - id: 6fc2a5e1-51d9-4e6c-8f87-66e5cb413b5f
+                        title: Draft release notes
+                        status: DAILY
+                        is_stale: 0
+                        completed_at: null
+                    completed:
+                      - id: 4d2f9ece-c20a-47b2-8d57-c69fd7ffef64
+                        title: Review daily priorities
+                        status: COMPLETED
+                        is_stale: 0
+                        completed_at: 2026-02-28T10:12:33.000Z
         '500':
           description: Server error
           content:
@@ -26,6 +42,7 @@ components:
     FocusTodoGroups:
       type: object
       required: [active, completed]
+      description: Grouped focus response where active todos must be rendered before completed todos.
       properties:
         active:
           type: array

@@ -24,7 +24,25 @@
 1. `npm run lint`
 2. `npm test`
 
-## 5. Evidence to capture
+## 5. Validation checklist
+1. Confirm contract test coverage for grouped focus read behavior:
+   - `backend/tests/contract/us2-focus.contract.test.ts`
+2. Confirm backend integration flow coverage for complete/uncomplete focus transitions:
+   - `backend/tests/integration/us2-focus-flow.test.ts`
+3. Confirm frontend rendering coverage for grouping and strike-through:
+   - `frontend/tests/unit/focusPage.test.ts`
+   - `frontend/tests/unit/todoListItem.test.ts`
+   - `frontend/tests/e2e/us2-focus-mode.spec.ts`
+
+## 6. Latest execution evidence (2026-02-28)
+1. `npm test` at repo root: PASS (backend 11/11 tests, frontend 4/4 tests).
+2. `npm run lint` at repo root: PASS after enabling legacy ESLint config mode for workspace lint scripts.
+3. Focus behavior verification covered by automated tests for:
+   - Same-day completed visibility
+   - Completed strike-through rendering
+   - Active-first + stable group ordering
+
+## 7. Evidence to capture
 1. Contract test proving `GET /api/todos/focus` grouping/filter rules.
 2. Frontend integration/e2e evidence for visibility + ordering + strike-through.
 3. Performance spot-check showing completion toggle reflects on screen within QR-004 budget.

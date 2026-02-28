@@ -17,6 +17,11 @@ export interface TodoItem {
   completed_at: string | null;
 }
 
+export interface FocusTodoGroups {
+  active: TodoItem[];
+  completed: TodoItem[];
+}
+
 export interface AppState {
   mode: AppMode;
   inbox: TodoItem[];
