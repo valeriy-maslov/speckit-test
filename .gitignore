@@ -13,5 +13,7 @@ Thumbs.db
 .idea/
 data/*.db
 data/*.db-*
+backend/data/*.db
+backend/data/*.db-*
 
 .codex/
