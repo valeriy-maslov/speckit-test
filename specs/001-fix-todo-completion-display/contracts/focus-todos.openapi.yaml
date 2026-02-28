@@ -1,0 +1,85 @@
+openapi: 3.0.3
+info:
+  title: Focus Todos Contract
+  version: 1.0.0
+  description: Contract for retrieving focus-mode todos with active/completed-today grouping.
+paths:
+  /api/todos/focus:
+    get:
+      summary: Get focus todos for the current day
+      description: Returns active daily todos and same-day completed todos. Completed items from previous days are excluded.
+      responses:
+        '200':
+          description: Focus todo groups for current day
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FocusTodoGroups'
+              examples:
+                active-and-completed:
+                  summary: Active todos first, completed-today below
+                  value:
+                    active:
+                      - id: 6fc2a5e1-51d9-4e6c-8f87-66e5cb413b5f
+                        title: Draft release notes
+                        status: DAILY
+                        is_stale: 0
+                        completed_at: null
+                    completed:
+                      - id: 4d2f9ece-c20a-47b2-8d57-c69fd7ffef64
+                        title: Review daily priorities
+                        status: COMPLETED
+                        is_stale: 0
+                        completed_at: 2026-02-28T10:12:33.000Z
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    FocusTodoGroups:
+      type: object
+      required: [active, completed]
+      description: Grouped focus response where active todos must be rendered before completed todos.
+      properties:
+        active:
+          type: array
+          items:
+            $ref: '#/components/schemas/TodoItem'
+          description: Actionable current-day todos shown first.
+        completed:
+          type: array
+          items:
+            $ref: '#/components/schemas/TodoItem'
+          description: Todos completed during current day shown after active list.
+    TodoItem:
+      type: object
+      required:
+        - id
+        - title
+        - status
+        - is_stale
+        - completed_at
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        status:
+          type: string
+          enum: [INBOX, DAILY, COMPLETED, TRASH]
+        is_stale:
+          type: integer
+          enum: [0, 1]
+        completed_at:
+          type: string
+          nullable: true
+          format: date-time
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string

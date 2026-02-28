@@ -36,7 +36,8 @@ const boot = async (): Promise<void> => {
       const li = el.closest('li');
       const id = li?.getAttribute('data-id');
       if (!id) return;
-      await api.updateTodo(id, { status: (el as HTMLInputElement).checked ? 'COMPLETED' : 'DAILY' });
+      const nextStatus = (el as HTMLInputElement).checked ? 'COMPLETED' : 'DAILY';
+      await api.updateTodo(id, { status: nextStatus });
       await paint();
     }
     if (el.matches('[data-view="TRASH"]')) {

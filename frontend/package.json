@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\""
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint \"src/**/*.ts\" \"tests/**/*.ts\""
   },
   "dependencies": {
     "bootstrap": "^5.3.3"

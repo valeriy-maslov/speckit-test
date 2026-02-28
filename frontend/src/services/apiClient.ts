@@ -1,4 +1,4 @@
-import type { AppState, AppMode, InboxPoint, TodoItem, TodoStatus } from './types';
+import type { AppState, AppMode, FocusTodoGroups, InboxPoint, TodoItem, TodoStatus } from './types';
 
 const BASE = 'http://localhost:3000/api';
 
@@ -17,6 +17,7 @@ export const api = {
   createInboxPoint: (text: string) => request<InboxPoint>('/inbox-points', { method: 'POST', body: JSON.stringify({ text }) }),
   createTodo: (title: string, source_inbox_point_id?: string) => request<TodoItem>('/todos', { method: 'POST', body: JSON.stringify({ title, source_inbox_point_id }) }),
   listTodos: (status?: TodoStatus) => request<TodoItem[]>(`/todos${status ? `?status=${status}` : ''}`),
+  listFocusTodos: () => request<FocusTodoGroups>('/todos/focus'),
   updateTodo: (id: string, patch: Partial<{ title: string; status: TodoStatus }>) => request<TodoItem>(`/todos/${id}`, { method: 'PATCH', body: JSON.stringify(patch) }),
   assignDaily: (id: string) => request<{ ok: boolean }>(`/daily-list/${id}`, { method: 'PUT' }),
   unassignDaily: (id: string) => request<{ ok: boolean }>(`/daily-list/${id}`, { method: 'DELETE' }),
