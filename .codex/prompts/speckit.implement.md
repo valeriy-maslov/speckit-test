@@ -112,10 +112,10 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 7. Implementation execution rules:
    - **Setup first**: Initialize project structure, dependencies, configuration
-   - **Tests before code**: If you need to write tests for contracts, entities, and integration scenarios
+   - **Tests before code**: MUST write tests for contracts, entities, and integration scenarios
    - **Core development**: Implement models, services, CLI commands, endpoints
    - **Integration work**: Database connections, middleware, logging, external services
-   - **Polish and validation**: Unit tests, performance optimization, documentation
+   - **Polish and validation**: Unit tests, performance validation against budgets, UX consistency checks, documentation
 
 8. Progress tracking and error handling:
    - Report progress after each completed task
