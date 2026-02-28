@@ -1,8 +1,8 @@
 import { api } from './apiClient';
-import type { TodoItem } from './types';
+import type { FocusTodoGroups } from './types';
 
 export const focusStore = {
-  async load(): Promise<TodoItem[]> {
-    return api.listTodos('DAILY');
+  async load(): Promise<FocusTodoGroups> {
+    return api.listFocusTodos();
   }
 };

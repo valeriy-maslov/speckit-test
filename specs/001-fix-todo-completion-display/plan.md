@@ -103,3 +103,9 @@ frontend/
 - **Testing Gate**: PASS. Plan includes contract, integration, unit, and e2e checks for modified behavior and edge cases.
 - **UX Consistency Gate**: PASS. Uses existing list item/checkbox interaction and existing strike-through styling token.
 - **Performance Gate**: PASS. Read path remains index-friendly and response payload is bounded to current-day focus list.
+
+## Implementation Validation Notes
+
+- 2026-02-28 test run: `npm test` PASS at repository root.
+- 2026-02-28 performance spot-check: completion toggle path updates backend state and repaints focus list in the same interaction cycle; behavior remains within QR-004 target (<1s for normal usage).
+- 2026-02-28 lint status: `npm run lint` PASS after enabling legacy ESLint config mode in workspace lint scripts.

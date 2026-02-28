@@ -4,6 +4,13 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 
 export const dateOnly = (d = new Date()): string => d.toISOString().slice(0, 10);
 
+export const dateOnlyFromIso = (iso: string | null): string | null => {
+  if (!iso) return null;
+  const parsed = new Date(iso);
+  if (Number.isNaN(parsed.getTime())) return null;
+  return dateOnly(parsed);
+};
+
 const olderThanDays = (iso: string | null, days: number): boolean => {
   if (!iso) return false;
   return Date.now() - new Date(iso).getTime() >= days * DAY_MS;

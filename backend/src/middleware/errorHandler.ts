@@ -6,6 +6,7 @@ export const errorHandler = (
   res: Response,
   _next: NextFunction
 ): void => {
+  void _next;
   const message = err instanceof Error ? err.message : 'Unexpected error';
   res.status(500).json({ error: message });
 };

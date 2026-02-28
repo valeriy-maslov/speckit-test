@@ -1,11 +1,15 @@
 import { Router } from 'express';
-import { createTodo, listTodos, updateTodo } from '../services/todoService.js';
+import { createTodo, listFocusTodosForToday, listTodos, updateTodo } from '../services/todoService.js';
 
 export const todosRouter = Router();
 
 todosRouter.get('/', (req, res) => {
   const status = req.query.status as any;
   res.json(listTodos(status));
+});
+
+todosRouter.get('/focus', (_req, res) => {
+  res.json(listFocusTodosForToday());
 });
 
 todosRouter.post('/', (req, res) => {

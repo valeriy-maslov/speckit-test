@@ -1,6 +1,12 @@
 import { db } from '../db/client.js';
 import { genId, nowIso } from '../db/repository.js';
 import type { TodoItem, TodoStatus } from '../models/todoItem.js';
+import { dateOnly, dateOnlyFromIso } from './lifecycleRules.js';
+
+export interface FocusTodoGroups {
+  active: TodoItem[];
+  completed: TodoItem[];
+}
 
 export const listTodos = (status?: TodoStatus): TodoItem[] => {
   if (status) {
@@ -62,3 +68,17 @@ export const updateTodo = (id: string, patch: Partial<{ title: string; status: T
 
 export const listTrash = (): TodoItem[] =>
   db.prepare("SELECT * FROM todo_items WHERE status='TRASH' ORDER BY trashed_at DESC").all() as TodoItem[];
+
+export const listFocusTodosForToday = (): FocusTodoGroups => {
+  const today = dateOnly();
+  const active = db
+    .prepare("SELECT * FROM todo_items WHERE status='DAILY' ORDER BY created_at ASC, id ASC")
+    .all() as TodoItem[];
+  const completed = db
+    .prepare("SELECT * FROM todo_items WHERE status='COMPLETED' ORDER BY created_at ASC, id ASC")
+    .all() as TodoItem[];
+  return {
+    active,
+    completed: completed.filter((todo) => dateOnlyFromIso(todo.completed_at) === today)
+  };
+};
